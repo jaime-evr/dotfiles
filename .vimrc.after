@@ -1,0 +1,3 @@
+colorscheme molokai
+set guioptions-=r
+set guioptions-=L

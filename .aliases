@@ -1,0 +1,6 @@
+alias go="git checkout"
+alias gs="git status"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias be="bundle exec"
+alias ber="be rails s"
