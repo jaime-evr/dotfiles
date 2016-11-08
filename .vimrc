@@ -17,6 +17,8 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'
 Plugin 'skalnik/vim-vroom'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'git@github.com:airblade/vim-gitgutter.git'
 Plugin 'git@github.com:scrooloose/syntastic.git'
 Plugin 'git@github.com:chrisbra/NrrwRgn.git'
@@ -68,6 +70,8 @@ syntax enable
 set background=dark
 colorscheme solarized
 
+set guifont=Source\ Code\ Pro\ for\ Powerline:h12 " powerline font configuration
+
 set guioptions-=r " remove right-hand scroll bar
 set guioptions-=L " remove left-hand scroll bar
 
@@ -97,7 +101,29 @@ set wildignore+=*.swp,*~,._*
 "" Backup and swap files
 ""
 
+set noswapfile " Disable swap files
 set backupdir^=~/.vim/_backup//    " where to put backup files.
 set directory^=~/.vim/_temp//      " where to put swap files.
 
+if has("statusline") && !&cp
+  set laststatus=2  " always show the status bar
+
+  " Start the status line
+  set statusline=%f\ %m\ %r
+  set statusline+=Line:%l/%L[%p%%]
+  set statusline+=Col:%v
+  set statusline+=Buf:#%n
+  set statusline+=[%b][0x%B]
+endif
+
 let mapleader = ","
+let g:airline_powerline_fonts = 1 "Automaticaly populate the g:airline_symbols
+
+" NERDTree mapping
+map <Leader>n :NERDTreeToggle<CR>
+
+" move lines/blocks of code up or down with cmd-j or cmd-k
+nnoremap <D-j> :m .+1<CR>==
+nnoremap <D-k> :m .-2<CR>==
+vnoremap <D-j> :m '>+1<CR>gv=gv
+vnoremap <D-k> :m '<-2<CR>gv=gv
