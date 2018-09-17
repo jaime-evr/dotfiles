@@ -11,19 +11,28 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Plugins
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
 Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rails'
-Plugin 'skalnik/vim-vroom'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tomlion/vim-solidity'
+Plugin 'elixir-lang/vim-elixir'
 Plugin 'git@github.com:airblade/vim-gitgutter.git'
-Plugin 'git@github.com:scrooloose/syntastic.git'
+Plugin 'git@github.com:altercation/vim-colors-solarized.git'
 Plugin 'git@github.com:chrisbra/NrrwRgn.git'
 Plugin 'git@github.com:ctrlpvim/ctrlp.vim.git'
-Plugin 'git@github.com:altercation/vim-colors-solarized.git'
+Plugin 'git@github.com:scrooloose/syntastic.git'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'lilydjwg/colorizer'
+Plugin 'mileszs/ack.vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'skalnik/vim-vroom'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -119,11 +128,48 @@ endif
 let mapleader = ","
 let g:airline_powerline_fonts = 1 "Automaticaly populate the g:airline_symbols
 
+" open .vimrc file
+nmap <f6> :e ~/.vimrc<CR> 
+
 " NERDTree mapping
 map <Leader>n :NERDTreeToggle<CR>
 
-" move lines/blocks of code up or down with cmd-j or cmd-k
+nnoremap <D-]> <C-w>w
+nnoremap <D-[> <C-w><S-w>
+
+" move lines/blocks of code up or down with cmd+j or cmd+k
 nnoremap <D-j> :m .+1<CR>==
 nnoremap <D-k> :m .-2<CR>==
 vnoremap <D-j> :m '>+1<CR>gv=gv
 vnoremap <D-k> :m '<-2<CR>gv=gv
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" cmd+/ to comment lines or blocks of code
+map <D-/> <plug>NERDCommenterToggle<CR>
+
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
+" set folding method
+if has('folding')
+  if has('windows')
+    set fillchars=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+  endif
+  set foldmethod=indent               " not as cool as syntax, but faster
+  set foldlevelstart=99               " start unfolded
+endif
+
+" toggle fold at current possition
+nnoremap <s-tab> za
+
